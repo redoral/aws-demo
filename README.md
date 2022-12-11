@@ -13,6 +13,8 @@ Simple documentation for the AWS Serverless API that I use to demo for interview
 The API is a simple RESTful products API with complete CRUD. The available endpoints and methods are:
 
 - `GET` on `/products` will return all of the entries in the products table.
+- `GET` on `/products/{productId}` returns a product that matches the given ID.
+- `GET` on `/products/categories/{categoryName}` returns all available products under the specified category name.
 - `POST` on `/products` will insert a new product into the products table; requires the following body:
 
 ```json
@@ -24,9 +26,6 @@ The API is a simple RESTful products API with complete CRUD. The available endpo
 }
 ```
 
-DynamoDB takes values in strings, that's why everything is a string. The types are defined after this request body is received and before it is put in the table.
-
-- `GET` on `/products/{productId}` returns a product that matches the given ID, where **{productId}** is a numerical value.
 - `PATCH` on `/products/{productId}` updates an existing product in the products table based on the given ID in the URI and with the given values in the body; requires the following body:
 
 ```json
@@ -37,7 +36,8 @@ DynamoDB takes values in strings, that's why everything is a string. The types a
 ```
 
 - `DELETE` on `/products/{productId}` deletes an existing product in the table based on the given ID in the URI.
-- `GET` on `/products/categories/{categoryName}` returns all available products under the specified category name.
+
+DynamoDB takes values in strings, that's why everything is a string. The types are defined after this request body is received and before it is put in the table.
 
 ## Successful Responses
 
