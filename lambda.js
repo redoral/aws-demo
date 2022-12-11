@@ -15,8 +15,7 @@ import {
 /* Resource Paths */
 const productsPath = '/products';
 const productIdPath = '/products/{productId}';
-const categoriesPath = '/products/categories';
-const categoiesNamePath = '/products/categories/{categoryName}';
+const categoriesNamePath = '/products/categories/{categoryName}';
 
 /* Event handler */
 export const handler = async (event) => {
@@ -37,9 +36,7 @@ export const handler = async (event) => {
       );
     case event.resource === productIdPath && event.httpMethod === 'DELETE':
       return await deleteProductById(event.pathParameters.productId);
-    case event.resource === categoiesNamePath && event.httpMethod === 'GET':
-      return await getAllCategories();
-    case event.resource === categoiesNamePath && event.httpMethod === 'GET':
+    case event.resource === categoriesNamePath && event.httpMethod === 'GET':
       return await getProductsByCategory(event.pathParameters.categoryName);
     default:
       return errorResponseBuilder(404, 'Resource not found.');
@@ -187,31 +184,7 @@ const getProductsByCategory = async (category) => {
 
   try {
     const data = await dbClient.send(new QueryCommand(params));
-    return responseBuilder(200, data.Items, `${categoriesPath}/${category}`);
-  } catch (e) {
-    return errorResponseBuilder(500, e.message);
-  }
-};
-
-/**
- * getAllCategories - Gets all available categories
- * @returns - A response object with a 200 status code with an array of categories or an error message
- */
-const getAllCategories = async () => {
-  const params = {
-    TableName: process.env.PRODUCTS_TABLE,
-    IndexName: 'productCategory-index',
-    ProjectionExpression: 'productCategory'
-  };
-
-  try {
-    const data = await dbClient.send(new ScanCommand(params));
-    const categoryArray = [];
-
-    data.Items.forEach((item) => {
-      categoryArray.push({ S: item.productCategory.S });
-    });
-    return responseBuilder(200, categoryArray, categoriesPath);
+    return responseBuilder(200, data.Items, `/categories/${category}`);
   } catch (e) {
     return errorResponseBuilder(500, e.message);
   }

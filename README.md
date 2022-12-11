@@ -37,7 +37,6 @@ DynamoDB takes values in strings, that's why everything is a string. The types a
 ```
 
 - `DELETE` on `/products/{productId}` deletes an existing product in the table based on the given ID in the URI.
-- `GET` on `/products/categories` returns all available categories.
 - `GET` on `/products/categories/{categoryName}` returns all available products under the specified category name.
 
 ## Successful Responses
